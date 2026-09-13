@@ -1,16 +1,25 @@
-import type { FilaFrecuencia } from "../types/estadistica";
+import type {
+  FilaFrecuencia,
+} from "../types/estadistica";
 
 interface Propiedades {
   frecuencias: FilaFrecuencia[];
+  nombreVariable: string;
 }
 
-function TablaFrecuencias({ frecuencias }: Propiedades) {
+function TablaFrecuencias({
+  frecuencias,
+  nombreVariable,
+}: Propiedades) {
   return (
     <div className="contenedor-tabla">
       <table className="tabla-frecuencias">
         <thead>
           <tr>
-            <th>Hora</th>
+            <th>
+              {nombreVariable || "Dato"}
+            </th>
+
             <th>fi</th>
             <th>Fi</th>
             <th>hi</th>
@@ -20,23 +29,54 @@ function TablaFrecuencias({ frecuencias }: Propiedades) {
         </thead>
 
         <tbody>
-          {frecuencias.map((fila) => (
-            <tr key={fila.hora}>
-              <td>{fila.hora}</td>
-
-              <td>{fila.frecuenciaAbsoluta}</td>
-
-              <td>{fila.frecuenciaAcumulada}</td>
-
-              <td>{fila.frecuenciaRelativa.toFixed(3)}</td>
-
-              <td>
-                {fila.frecuenciaRelativaAcumulada.toFixed(3)}
+          {frecuencias.length === 0 ? (
+            <tr>
+              <td
+                colSpan={6}
+                className="tabla-vacia"
+              >
+                No hay datos guardados
+                para calcular frecuencias.
               </td>
-
-              <td>{fila.porcentaje.toFixed(2)}%</td>
             </tr>
-          ))}
+          ) : (
+            frecuencias.map((fila) => (
+              <tr key={fila.valor}>
+                <td>{fila.valor}</td>
+
+                <td>
+                  {
+                    fila.frecuenciaAbsoluta
+                  }
+                </td>
+
+                <td>
+                  {
+                    fila.frecuenciaAcumulada
+                  }
+                </td>
+
+                <td>
+                  {fila.frecuenciaRelativa.toFixed(
+                    3,
+                  )}
+                </td>
+
+                <td>
+                  {fila.frecuenciaRelativaAcumulada.toFixed(
+                    3,
+                  )}
+                </td>
+
+                <td>
+                  {fila.porcentaje.toFixed(
+                    2,
+                  )}
+                  %
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>

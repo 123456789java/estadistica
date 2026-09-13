@@ -2,40 +2,65 @@ import type { Pagina } from "../types/estadistica";
 
 interface Propiedades {
   paginaActiva: Pagina;
+  titulo: string;
+  descargando: boolean;
   cambiarPagina: (pagina: Pagina) => void;
+  descargarPdf: () => void;
 }
 
 function BarraNavegacion({
   paginaActiva,
+  titulo,
+  descargando,
   cambiarPagina,
+  descargarPdf,
 }: Propiedades) {
   return (
     <header className="barra-navegacion">
-      <div>
-        <h1>Estadística del Sueño</h1>
-        <p>Encuesta realizada a 80 personas</p>
+      <div className="marca-aplicacion">
+        <h1>{titulo}</h1>
       </div>
 
-      <nav className="menu-principal">
+      <nav
+        className="menu-principal"
+        aria-label="Navegación principal"
+      >
         <button
-          className={paginaActiva === "inicio" ? "activo" : ""}
-          onClick={() => cambiarPagina("inicio")}
+          type="button"
+          className={
+            paginaActiva === "inicio"
+              ? "activo"
+              : ""
+          }
+          onClick={() =>
+            cambiarPagina("inicio")
+          }
         >
           Inicio
         </button>
 
         <button
-          className={paginaActiva === "encuesta" ? "activo" : ""}
-          onClick={() => cambiarPagina("encuesta")}
+          type="button"
+          onClick={descargarPdf}
+          disabled={descargando}
         >
-          Encuesta
+          {descargando
+            ? "Generando..."
+            : "Descargar PDF"}
         </button>
 
         <button
-          className={paginaActiva === "graficos" ? "activo" : ""}
-          onClick={() => cambiarPagina("graficos")}
+          type="button"
+          className={
+            paginaActiva === "editar"
+              ? "activo"
+              : ""
+          }
+          onClick={() =>
+            cambiarPagina("editar")
+          }
         >
-          Gráficos
+          Editar
         </button>
       </nav>
     </header>

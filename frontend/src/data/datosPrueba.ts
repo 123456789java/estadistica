@@ -1,6 +1,9 @@
-import type { HoraDormir, RegistroEncuesta } from "../types/estadistica";
+import type {
+  ConfiguracionEncuesta,
+  RegistroEncuesta,
+} from "../types/estadistica";
 
-const distribucion: Array<[HoraDormir, number]> = [
+const distribucion: Array<[string, number]> = [
   ["22:00", 8],
   ["23:00", 12],
   ["00:00", 18],
@@ -14,10 +17,22 @@ const distribucion: Array<[HoraDormir, number]> = [
 
 let identificador = 1;
 
-export const datosPrueba: RegistroEncuesta[] = distribucion.flatMap(
-  ([hora, cantidad]) =>
-    Array.from({ length: cantidad }, () => ({
-      id: identificador++,
-      horaDormir: hora,
-    })),
+const registros: RegistroEncuesta[] = distribucion.flatMap(
+  ([valor, cantidad]) =>
+    Array.from({ length: cantidad }, () => {
+      const id = identificador++;
+
+      return {
+        id,
+        nombre: `Persona ${id}`,
+        valor,
+      };
+    }),
 );
+
+export const datosPrueba: ConfiguracionEncuesta = {
+  titulo: "Datos Estadísticos COLAP",
+  nombreMuestra: "Persona",
+  nombreVariable: "Hora de dormir",
+  registros,
+};

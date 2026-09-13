@@ -1,23 +1,26 @@
-export type HoraDormir =
-  | "22:00"
-  | "23:00"
-  | "00:00"
-  | "01:00"
-  | "02:00"
-  | "03:00"
-  | "04:00"
-  | "05:00"
-  | "06:00";
+export type Pagina = "inicio" | "editar";
 
-export type Pagina = "inicio" | "encuesta" | "graficos";
+export type TipoGrafico =
+  | "barras"
+  | "grupos"
+  | "circular"
+  | "histograma";
 
 export interface RegistroEncuesta {
   id: number;
-  horaDormir: HoraDormir;
+  nombre: string;
+  valor: string;
+}
+
+export interface ConfiguracionEncuesta {
+  titulo: string;
+  nombreMuestra: string;
+  nombreVariable: string;
+  registros: RegistroEncuesta[];
 }
 
 export interface FilaFrecuencia {
-  hora: HoraDormir;
+  valor: string;
   frecuenciaAbsoluta: number;
   frecuenciaAcumulada: number;
   frecuenciaRelativa: number;
@@ -26,10 +29,8 @@ export interface FilaFrecuencia {
 }
 
 export interface ResumenEstadistico {
-  totalPersonas: number;
+  totalMuestras: number;
   media: string;
   mediana: string;
   moda: string;
-  varianza: number;
-  desviacionEstandar: number;
 }
